@@ -21,7 +21,7 @@ class Eleve
     private ?string $surname = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $dateNaissance = null;
+    private ?\DateTime $dateNaissance = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
@@ -30,15 +30,15 @@ class Eleve
     private ?string $desciption = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $dateInsriptionAt = null;
-
-    #[ORM\ManyToOne(inversedBy: 'eleves')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Gendre $gendre = null;
+    private ?\DateTime $dateInsriptionAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'eleves')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Guardian $guardian = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Gendre $gendre = null;
 
     public function getId(): ?int
     {
@@ -69,12 +69,12 @@ class Eleve
         return $this;
     }
 
-    public function getDateNaissance(): ?\DateTimeImmutable
+    public function getDateNaissance(): ?\DateTime
     {
         return $this->dateNaissance;
     }
 
-    public function setDateNaissance(\DateTimeImmutable $dateNaissance): self
+    public function setDateNaissance(\DateTime $dateNaissance): self
     {
         $this->dateNaissance = $dateNaissance;
 
@@ -105,26 +105,14 @@ class Eleve
         return $this;
     }
 
-    public function getDateInsriptionAt(): ?\DateTimeImmutable
+    public function getDateInsriptionAt(): ?\DateTime
     {
         return $this->dateInsriptionAt;
     }
 
-    public function setDateInsriptionAt(?\DateTimeImmutable $dateInsriptionAt): self
+    public function setDateInsriptionAt(?\DateTime $dateInsriptionAt): self
     {
         $this->dateInsriptionAt = $dateInsriptionAt;
-
-        return $this;
-    }
-
-    public function getGendre(): ?Gendre
-    {
-        return $this->gendre;
-    }
-
-    public function setGendre(?Gendre $gendre): self
-    {
-        $this->gendre = $gendre;
 
         return $this;
     }
@@ -137,6 +125,18 @@ class Eleve
     public function setGuardian(?Guardian $guardian): self
     {
         $this->guardian = $guardian;
+
+        return $this;
+    }
+
+    public function getGendre(): ?Gendre
+    {
+        return $this->gendre;
+    }
+
+    public function setGendre(?Gendre $gendre): self
+    {
+        $this->gendre = $gendre;
 
         return $this;
     }

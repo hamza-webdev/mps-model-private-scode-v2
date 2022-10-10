@@ -18,14 +18,6 @@ class Gendre
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'gendre', targetEntity: Eleve::class)]
-    private Collection $eleves;
-
-    public function __construct()
-    {
-        $this->eleves = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -43,33 +35,5 @@ class Gendre
         return $this;
     }
 
-    /**
-     * @return Collection<int, Eleve>
-     */
-    public function getEleves(): Collection
-    {
-        return $this->eleves;
-    }
 
-    public function addElefe(Eleve $elefe): self
-    {
-        if (!$this->eleves->contains($elefe)) {
-            $this->eleves->add($elefe);
-            $elefe->setGendre($this);
-        }
-
-        return $this;
-    }
-
-    public function removeElefe(Eleve $elefe): self
-    {
-        if ($this->eleves->removeElement($elefe)) {
-            // set the owning side to null (unless already changed)
-            if ($elefe->getGendre() === $this) {
-                $elefe->setGendre(null);
-            }
-        }
-
-        return $this;
-    }
 }

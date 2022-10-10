@@ -34,10 +34,14 @@ class Guardian
     private ?string $city = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $codepostal = null;
+    private ?string $codepostal = null;
 
     #[ORM\OneToMany(mappedBy: 'guardian', targetEntity: Eleve::class, orphanRemoval: true)]
     private Collection $eleves;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Gendre $gendre = null;
 
     public function __construct()
     {
@@ -121,12 +125,12 @@ class Guardian
         return $this;
     }
 
-    public function getCodepostal(): ?int
+    public function getCodepostal(): ?string
     {
         return $this->codepostal;
     }
 
-    public function setCodepostal(?int $codepostal): self
+    public function setCodepostal(?string $codepostal): self
     {
         $this->codepostal = $codepostal;
 
@@ -162,4 +166,18 @@ class Guardian
 
         return $this;
     }
+
+    public function getGendre(): ?Gendre
+    {
+        return $this->gendre;
+    }
+
+    public function setGendre(?Gendre $gendre): self
+    {
+        $this->gendre = $gendre;
+
+        return $this;
+    }
+
+
 }
