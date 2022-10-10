@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Guardian index{% endblock %}
+
+{% block body %}
+    <h1>Guardian index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Email</th>
+                <th>Telephone</th>
+                <th>Adresse</th>
+                <th>City</th>
+                <th>Codepostal</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for guardian in guardians %}
+            <tr>
+                <td>{{ guardian.id }}</td>
+                <td>{{ guardian.name }}</td>
+                <td>{{ guardian.surname }}</td>
+                <td>{{ guardian.email }}</td>
+                <td>{{ guardian.telephone }}</td>
+                <td>{{ guardian.adresse }}</td>
+                <td>{{ guardian.city }}</td>
+                <td>{{ guardian.codepostal }}</td>
+                <td>
+                    <a href="{{ path('app_guardian_show', {'id': guardian.id}) }}">show</a>
+                    <a href="{{ path('app_guardian_edit', {'id': guardian.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_guardian_new') }}">Create new</a>
+{% endblock %}
