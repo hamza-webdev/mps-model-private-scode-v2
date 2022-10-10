@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Guardian{% endblock %}
+
+{% block body %}
+    <h1>Create new Guardian</h1>
+
+    {{ include('guardian/_form.html.twig') }}
+
+    <a href="{{ path('app_guardian_index') }}">back to list</a>
+{% endblock %}
