@@ -17,20 +17,14 @@ composer req --dev dama/doctrine-test-bundle
 
 - Creer une base de donnees test: on modif file composer.json
   ```
-"scripts": {
 
+    "scripts": {
         "prepare-test": [
-
             "php bin/console d:d:d --if-exists --force --env=test",
-
             "php bin/console d:d:c --env=test",
-
             "php bin/console d:s:u -f --env=test",
-
             "php bin/console d:f:l -n --env=test"
-
         ]
-
     }
 
 ```
