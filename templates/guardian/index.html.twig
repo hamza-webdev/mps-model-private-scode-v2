@@ -3,45 +3,49 @@
 {% block title %}Guardian index{% endblock %}
 
 {% block body %}
-    <h1>Guardian index</h1>
+    <h1 class="text-center">Guardian index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Email</th>
-                <th>Telephone</th>
-                <th>Adresse</th>
-                <th>City</th>
-                <th>Codepostal</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for guardian in guardians %}
-            <tr>
-                <td>{{ guardian.id }}</td>
-                <td>{{ guardian.name }}</td>
-                <td>{{ guardian.surname }}</td>
-                <td>{{ guardian.email }}</td>
-                <td>{{ guardian.telephone }}</td>
-                <td>{{ guardian.adresse }}</td>
-                <td>{{ guardian.city }}</td>
-                <td>{{ guardian.codepostal }}</td>
-                <td>
-                    <a href="{{ path('app_guardian_show', {'id': guardian.id}) }}">show</a>
-                    <a href="{{ path('app_guardian_edit', {'id': guardian.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="container">
+    <dic class="row">
+        <div class="col-12">
+              <a href="{{ path('app_guardian_new') }}"  class="btn btn-primary">Create new</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center">Id</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Surname</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Telephone</th>
+                    <th class="text-center">Adresse</th>
+                    <th class="text-center">City</th>
+                    <th class="text-center">Codepostal</th>
+                    <th class="text-center">actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for guardian in guardians %}
+                <tr>
+                    <td class="text-center">{{ guardian.id }}</td>
+                    <td class="text-center">{{ guardian.name }}</td>
+                    <td class="text-center">{{ guardian.surname }}</td>
+                    <td class="text-center">{{ guardian.email }}</td>
+                    <td class="text-center">{{ guardian.telephone }}</td>
+                    <td class="text-center">{{ guardian.adresse }}</td>
+                    <td class="text-center">{{ guardian.city }}</td>
+                    <td class="text-center">{{ guardian.codepostal }}</td>
+                    <td class="text-center">
+                        <a href="{{ path('app_guardian_show', {'id': guardian.id}) }}" class="btn btn-info">show</a>
+                        <a href="{{ path('app_guardian_edit', {'id': guardian.id}) }}" class="btn btn-success">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_guardian_new') }}">Create new</a>
+    <a href="{{ path('app_guardian_new') }}"  class="btn btn-primary">Create new</a>
 {% endblock %}

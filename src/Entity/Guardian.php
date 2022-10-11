@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\GuardianRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Eleve;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\GuardianRepository;
+use Doctrine\Common\Collections\Collection;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: GuardianRepository::class)]
 class Guardian
@@ -16,12 +19,14 @@ class Guardian
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     private ?string $surname = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -36,8 +41,10 @@ class Guardian
     #[ORM\Column(nullable: true)]
     private ?string $codepostal = null;
 
-    #[ORM\OneToMany(mappedBy: 'guardian', targetEntity: Eleve::class, orphanRemoval: true)]
-    private Collection $eleves;
+    #[ORM\OneToMany(mappedBy: 'guardian', targetEntity: Eleve::class, cascade: ["persist"], orphanRemoval: true)]
+    #[Assert\Count(min:1)]
+    #[Assert\Valid]
+    private ?Collection $eleves;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -145,22 +152,22 @@ class Guardian
         return $this->eleves;
     }
 
-    public function addElefe(Eleve $elefe): self
+    public function addEleve(Eleve $eleve): self
     {
-        if (!$this->eleves->contains($elefe)) {
-            $this->eleves->add($elefe);
-            $elefe->setGuardian($this);
+        if (!$this->eleves->contains($eleve)) {
+            $this->eleves->add($eleve);
+            $eleve->setGuardian($this);
         }
 
         return $this;
     }
 
-    public function removeElefe(Eleve $elefe): self
+    public function removeEleve(Eleve $eleve): self
     {
-        if ($this->eleves->removeElement($elefe)) {
+        if ($this->eleves->removeElement($eleve)) {
             // set the owning side to null (unless already changed)
-            if ($elefe->getGuardian() === $this) {
-                $elefe->setGuardian(null);
+            if ($eleve->getGuardian() === $this) {
+                $eleve->setGuardian(null);
             }
         }
 

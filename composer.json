@@ -40,6 +40,7 @@
         "symfony/twig-bundle": "6.1.*",
         "symfony/validator": "6.1.*",
         "symfony/web-link": "6.1.*",
+        "symfony/webpack-encore-bundle": "^1.15",
         "symfony/yaml": "6.1.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
@@ -76,6 +77,12 @@
         "symfony/polyfill-php81": "*"
     },
     "scripts": {
+        "prepare-test": [
+            "php bin/console d:d:d --if-exists --force --env=test",
+            "php bin/console d:d:c --env=test",
+            "php bin/console d:s:u -f --env=test",
+            "php bin/console d:f:l -n --env=test"
+        ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
@@ -97,6 +104,7 @@
         }
     },
     "require-dev": {
+        "dama/doctrine-test-bundle": "^7.1",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "fakerphp/faker": "^1.20",
         "phpunit/phpunit": "^9.5",
