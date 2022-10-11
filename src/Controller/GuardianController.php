@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Guardian;
-use App\Form\Guardian1Type;
+use App\Form\GuardianType;
 use App\Repository\GuardianRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +25,7 @@ class GuardianController extends AbstractController
     public function new(Request $request, GuardianRepository $guardianRepository): Response
     {
         $guardian = new Guardian();
-        $form = $this->createForm(Guardian1Type::class, $guardian);
+        $form = $this->createForm(GuardianType::class, $guardian);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,7 +51,7 @@ class GuardianController extends AbstractController
     #[Route('/{id}/edit', name: 'app_guardian_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Guardian $guardian, GuardianRepository $guardianRepository): Response
     {
-        $form = $this->createForm(Guardian1Type::class, $guardian);
+        $form = $this->createForm(GuardianType::class, $guardian);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -1,4 +1,46 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="container">
+    <dic class="row">
+        <div class="col-12">
+
+            {{ form_start(form) }}
+
+                {{ form_widget(form._token) }}
+
+                {{ form_row(form.name)}}
+                {{ form_row(form.surname)}}
+                {{ form_row(form.email)}}
+                {{ form_row(form.telephone)}}
+                {{ form_row(form.adresse)}}
+                {{ form_row(form.city)}}
+                {{ form_row(form.codepostal)}}
+                {{ form_row(form.gendre)}}
+
+
+                <button type="button" class="btn btn-primary btn-new"
+                                id="new-student"
+                                data-collection=#students
+                >New Student</button>
+
+    <div id="students" class="row"
+        data-prototype="{{ include("guardian/_student.html.twig", {form: form.eleves.vars.prototype} ) |e("html_attr")}}"
+        data-index="{{form.eleves|length > 0 ? form.eleves|last.vars.name +1 : 0 }}">
+    {% for student in form.eleves  %}
+
+     <div class="col-4">
+        {{ include("guardian/_student.html.twig", {form: student} )}}
+    </div>
+
+    {% endfor %}
+
+    </div>
+
+    {{ form_errors(form.eleves) }}
+
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+
+    {{ form_end(form, {render_rest:false}) }}
+
+
+        </div>
+    </div>
+</div>
