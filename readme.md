@@ -10,3 +10,12 @@ npm run dev
 npm run build
 
 npm install jquery --save-dev
+
+# Test unit
+
+composer req --dev dama/doctrine-test-bundle
+
+- Creer une base de donnees test: on modif file composer.json
+- ````
+
+````
