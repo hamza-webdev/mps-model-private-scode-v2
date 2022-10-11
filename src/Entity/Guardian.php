@@ -43,6 +43,7 @@ class Guardian
 
     #[ORM\OneToMany(mappedBy: 'guardian', targetEntity: Eleve::class, cascade: ["persist"], orphanRemoval: true)]
     #[Assert\Count(min:1)]
+    #[Assert\Valid]
     private ?Collection $eleves;
 
     #[ORM\ManyToOne]
