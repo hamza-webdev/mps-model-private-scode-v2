@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SchoolController!{% endblock %}
+
+{% block body %}
+
+{{ component('alert', { message: 'Successfully created!' }) }}
+
+{{ component('alert', {
+    type: 'danger',
+    message: 'Danger Will Robinson!'
+}) }}
+
+{{ component('alert', {
+    type: 'warning',
+    message: 'warning Will Robinson!'
+}) }}
+
+{{ component('alert', {
+    type: 'info',
+    message: 'info Will Robinson!'
+}) }}
+
+{% endblock %}
