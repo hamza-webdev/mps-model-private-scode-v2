@@ -5,14 +5,18 @@ namespace App\Entity;
 use App\Entity\Eleve;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\GuardianRepository;
+use App\TraitCRUD\TimeStampTrait;
 use Doctrine\Common\Collections\Collection;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: GuardianRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Guardian
 {
+    use TimeStampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -190,6 +194,8 @@ class Guardian
     {
         return $this->getName();
     }
+
+
 
 
 }
