@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 #[Route('/eleve')]
 class EleveController extends AbstractController
 {
+
+    public function __construct(private FileUploader $fileUploader){}
+
     #[Route('/', name: 'app_eleve_index', methods: ['GET'])]
     public function index(EleveRepository $eleveRepository): Response
     {
@@ -23,6 +26,7 @@ class EleveController extends AbstractController
             'eleves' => $eleveRepository->findAll(),
         ]);
     }
+
 
     /**
      * Create new Eleve
@@ -35,7 +39,7 @@ class EleveController extends AbstractController
      * @version 1.0
      */
     #[Route('/new', name: 'app_eleve_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EleveRepository $eleveRepository, FileUploader $fileUploader): Response
+    public function new(Request $request, EleveRepository $eleveRepository): Response
     {
         $eleve = new Eleve();
         $form = $this->createForm(EleveType::class, $eleve);
@@ -49,7 +53,7 @@ class EleveController extends AbstractController
             // this condition is needed because the 'photo' field is not required
             // so the PDF file must be processed only when a file is uploaded
             if ($photoFile) {
-                $originalFilename = $fileUploader->upload($photoFile);
+                $originalFilename = $this->fileUploader->upload($photoFile);
 
 
                 // updates the 'photoFilename' property to store the PDF file name
@@ -94,7 +98,7 @@ class EleveController extends AbstractController
      * @version 1.0
      */
     #[Route('/{id}/edit', name: 'app_eleve_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Eleve $eleve, EleveRepository $eleveRepository, SluggerInterface $slugger): Response
+    public function edit(Request $request, Eleve $eleve, EleveRepository $eleveRepository): Response
     {
         $form = $this->createForm(EleveType::class, $eleve);
         $form->handleRequest($request);
@@ -107,24 +111,11 @@ class EleveController extends AbstractController
             // this condition is needed because the 'photo' field is not required
             // so the PDF file must be processed only when a file is uploaded
             if ($photoFile) {
-                $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$photoFile->guessExtension();
-
-                // Move the file to the directory where photos are stored
-                try {
-                    $photoFile->move(
-                        $this->getParameter('photos_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
+                $originalFilename = $this->fileUploader->upload($photoFile);
 
                 // updates the 'photoFilename' property to store the PDF file name
                 // instead of its contents
-                $eleve->setPhoto($newFilename);
+                $eleve->setPhoto($originalFilename);
             }
 
             $eleveRepository->save($eleve, true);
