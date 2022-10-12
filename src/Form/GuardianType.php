@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Gendre;
 use App\Entity\Guardian;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -21,7 +23,11 @@ class GuardianType extends AbstractType
             ->add('adresse')
             ->add('city')
             ->add('codepostal')
-            ->add('gendre')
+            ->add('gendre', EntityType::class, [
+                'class'    => Gendre::class,
+                'expanded' => true,
+
+            ])
             ->add('eleves', CollectionType::class, [
                 'entry_type' => EleveType::class,
                 'by_reference' => false,

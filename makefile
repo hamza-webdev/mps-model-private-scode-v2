@@ -16,12 +16,16 @@ start:
 	printf "   "
 	@printf "\033[42m                                     \033[0m"
 	@printf "\033[1;30m\033[42m The Application MPS is running successfully\033[0m"
-	@printf "\033[42m                                     \033[0m"
-
-
+	@printf "\033[42m                                   \033[0m"
 
 .PHONY: start
 
+dbf:
+	php bin/console make:migration
+	php bin/console d:m:m -n
+	php bin/console d:f:l -n
+
+.PHONY: dbf
 
 exp:
 	@echo $^

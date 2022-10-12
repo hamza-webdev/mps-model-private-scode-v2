@@ -31,3 +31,5 @@ composer req --dev dama/doctrine-test-bundle
 
 # Twig component
 composer req symfony/ux-twig-component
+
+# test

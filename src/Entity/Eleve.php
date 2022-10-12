@@ -3,14 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\EleveRepository;
+use App\TraitCRUD\TimeStampTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EleveRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Eleve
 {
+    use TimeStampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -149,4 +153,5 @@ class Eleve
     {
         return $this->getName();
     }
+
 }
