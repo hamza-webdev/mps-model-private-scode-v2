@@ -120,6 +120,7 @@
         "symfony/maker-bundle": "^1.0",
         "symfony/phpunit-bridge": "^6.1",
         "symfony/stopwatch": "6.1.*",
-        "symfony/web-profiler-bundle": "6.1.*"
+        "symfony/web-profiler-bundle": "6.1.*",
+        "vich/uploader-bundle": "^1.21"
     }
 }
