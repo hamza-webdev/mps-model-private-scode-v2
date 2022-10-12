@@ -28,6 +28,7 @@ class EleveFixtures extends Fixture  implements DependentFixtureInterface
                 ->setDateNaissance($faker->dateTimeBetween('-13 year', '-5 year'))
                 ->setDesciption($faker->sentence(8))
                 ->setGuardian($this->getReference("guardian".mt_rand(0,10)))
+                ->setPhoto($faker->imageUrl(80, 70, 'flags', true))
 
             ;
 

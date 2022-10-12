@@ -27,11 +27,13 @@
             </tr>
             <tr>
                 <th class="text-center">Photo</th>
-                <td class="text-center">{{ eleve.photo }}</td>
+                <td class="text-center">
+                    <a href="{{ asset('uploads/photos/' ~ eleve.photo) }}">View photo </a>
+                </td>
             </tr>
             <tr>
                 <th class="text-center">Desciption</th>
-                <td class="text-center">{{ eleve.desciption }}</td>
+                <td class="text-center">  {{ eleve.desciption }}</td>
             </tr>
             <tr>
                 <th class="text-center">DateInsriptionAt</th>

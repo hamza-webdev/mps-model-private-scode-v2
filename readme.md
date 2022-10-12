@@ -32,4 +32,9 @@ composer req --dev dama/doctrine-test-bundle
 # Twig component
 composer req symfony/ux-twig-component
 
-# test
+# Obtenir le VichUploaderBundle (upload file)  en utilisant composer
+- Ajoutez VichUploaderBundle en exécutant cette commande depuis le terminal à la racine de votre projet Symfony:
+-  ```
+   -  composer require vich/uploader-bundle
+
+```

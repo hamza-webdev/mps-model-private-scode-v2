@@ -28,7 +28,18 @@
                 <td class="text-center">{{ eleve.name }}</td>
                 <td class="text-center">{{ eleve.surname }}</td>
                 <td class="text-center">{{ eleve.dateNaissance ? eleve.dateNaissance|date('Y-m-d H:i:s') : '' }}</td>
-                <td class="text-center">{{ eleve.photo }}</td>
+                <td class="text-center">
+                    {% if 'https://' in eleve.photo %}
+                    <a href="{{ asset('eleve.photo') }}" target="_blank">
+                        <img src="{{eleve.photo}}" alt="photo eleve" width="90" height="75">
+                         </a>
+                    {% else %}
+                    <a href="{{ asset('uploads/photos/' ~ eleve.photo) }}" target="_blank">
+                        Voir photo </a>
+                    {% endif %}
+
+
+                    </td>
                 <td class="text-center">{{ eleve.desciption }}</td>
                 <td class="text-center">{{ eleve.dateInsriptionAt ? eleve.dateInsriptionAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td class="text-center">
