@@ -92,7 +92,7 @@ class CreateUserCommand extends Command
      */
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
-        if (null !== $input->getArgument('username') && null !== $input->getArgument('password') && null !== $input->getArgument('email') && null !== $input->getArgument('full-name')) {
+        if (null !== $input->getArgument('username') && null !== $input->getArgument('password') && null !== $input->getArgument('email') && null !== $input->getArgument('fullname')) {
             return;
         }
 
@@ -134,12 +134,12 @@ class CreateUserCommand extends Command
         }
 
         // Ask for the full name if it's not defined
-        $fullName = $input->getArgument('full-name');
+        $fullName = $input->getArgument('fullname');
         if (null !== $fullName) {
             $this->io->text(' > <info>Full Name</info>: '.$fullName);
         } else {
             $fullName = $this->io->ask('Full Name', null, [$this->validator, 'validateFullName']);
-            $input->setArgument('full-name', $fullName);
+            $input->setArgument('fullname', $fullName);
         }
     }
 
@@ -155,8 +155,8 @@ class CreateUserCommand extends Command
         $username = $input->getArgument('username');
         $plainPassword = $input->getArgument('password');
         $email = $input->getArgument('email');
-        $fullName = $input->getArgument('full-name');
-        $isAdmin = $input->getOption('admin');
+        $fullName = $input->getArgument('fullname');
+        $isAdmin = $input->getOption('isAdmin');
 
         // make sure to validate the user data is correct
         $this->validateUserData($username, $plainPassword, $email, $fullName);
@@ -166,6 +166,7 @@ class CreateUserCommand extends Command
         $user->setFullName($fullName);
         $user->setUsername($username);
         $user->setEmail($email);
+        $user->setIsAdmin($isAdmin ? true : false);
         $user->setRoles([$isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER']);
 
         // See https://symfony.com/doc/5.4/security.html#registering-the-user-hashing-passwords
