@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Eleve;
 use App\Form\EleveType;
+use App\Service\FileUploader;
 use App\Repository\EleveRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,8 +24,18 @@ class EleveController extends AbstractController
         ]);
     }
 
+    /**
+     * Create new Eleve
+     * @param  \Symfony\Component\HttpFoundation\Request          $request
+     * @param  \App\Repository\EleveRepository                    $eleveRepository
+     * @param  \Symfony\Component\String\Slugger\SluggerInterface $slugger
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @author Hamza
+     * @version 1.0
+     */
     #[Route('/new', name: 'app_eleve_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EleveRepository $eleveRepository, SluggerInterface $slugger): Response
+    public function new(Request $request, EleveRepository $eleveRepository, FileUploader $fileUploader): Response
     {
         $eleve = new Eleve();
         $form = $this->createForm(EleveType::class, $eleve);
@@ -32,30 +43,18 @@ class EleveController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /** @var UploadedFile $photoFile */
+            /** @var UploadedFile  $photoFile */
             $photoFile = $form->get('photo')->getData();
 
             // this condition is needed because the 'photo' field is not required
             // so the PDF file must be processed only when a file is uploaded
             if ($photoFile) {
-                $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$photoFile->guessExtension();
+                $originalFilename = $fileUploader->upload($photoFile);
 
-                // Move the file to the directory where photos are stored
-                try {
-                    $photoFile->move(
-                        $this->getParameter('photos_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
 
                 // updates the 'photoFilename' property to store the PDF file name
                 // instead of its contents
-                $eleve->setPhoto($newFilename);
+                $eleve->setPhoto($originalFilename);
             }
 
             $eleveRepository->save($eleve, true);
@@ -69,6 +68,13 @@ class EleveController extends AbstractController
         ]);
     }
 
+    /**
+     * Display un eleve Eleve
+     * @param  Eleve $eleve
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @author Hamza
+     * @version 1.0
+     */
     #[Route('/{id}', name: 'app_eleve_show', methods: ['GET'])]
     public function show(Eleve $eleve): Response
     {
@@ -77,6 +83,16 @@ class EleveController extends AbstractController
         ]);
     }
 
+    /**
+     * Edit One Eleve
+     * @param  \Symfony\Component\HttpFoundation\Request          $request
+     * @param  \App\Entity\Eleve                                  $eleve
+     * @param  \Symfony\Component\String\Slugger\SluggerInterface $slugger
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @author Hamza
+     * @version 1.0
+     */
     #[Route('/{id}/edit', name: 'app_eleve_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Eleve $eleve, EleveRepository $eleveRepository, SluggerInterface $slugger): Response
     {
@@ -122,6 +138,16 @@ class EleveController extends AbstractController
         ]);
     }
 
+    /**
+     * Delete new Eleve
+     * @param  \Symfony\Component\HttpFoundation\Request          $request
+     * @param  \App\Repository\EleveRepository                    $eleveRepository
+     * @param  \App\Entity\Eleve                                  $eleve
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @author Hamza
+     * @version 1.0
+     */
     #[Route('/{id}', name: 'app_eleve_delete', methods: ['POST'])]
     public function delete(Request $request, Eleve $eleve, EleveRepository $eleveRepository): Response
     {
