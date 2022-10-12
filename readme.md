@@ -38,3 +38,8 @@ composer req symfony/ux-twig-component
    -  composer require vich/uploader-bundle
 
 ```
+
+# Install Dompdf
+````
+composer require dompdf/dompdf
+````
