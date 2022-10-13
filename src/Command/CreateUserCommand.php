@@ -30,7 +30,6 @@ use function Symfony\Component\String\u;
  *
  *     $ php bin/console app:add-user -vv
  *
- *
  */
 #[AsCommand(
     name: 'app:create-user',
@@ -51,8 +50,13 @@ class CreateUserCommand extends Command
         parent::__construct();
     }
 
+
     /**
-     * {@inheritdoc}
+     * Undocumented function
+     *
+     * @return void
+     * @author Hamza
+     * @version 1.0
      */
     protected function configure(): void
     {
@@ -72,6 +76,17 @@ class CreateUserCommand extends Command
      * This optional method is the first one executed for a command after configure()
      * and is useful to initialize properties based on the input arguments and options.
      */
+    /**
+     * This optional method is the first one executed for a command after configure()
+     * and is useful to initialize properties based on the input arguments and options.
+     *
+     * @param  \Symfony\Component\Console\Input\InputInterface   $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return void
+     * @author Hamza
+     * @version 1.0
+     */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         // SymfonyStyle is an optional feature that Symfony provides so you can
@@ -89,10 +104,17 @@ class CreateUserCommand extends Command
      * command, you probably should not implement this method because it requires
      * quite a lot of work. However, if the command is meant to be used by external
      * users, this method is a nice way to fall back and prevent errors.
+     *
+     * @param  \Symfony\Component\Console\Input\InputInterface   $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return void
+     * @author Hamza
+     * @version 1.0
      */
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
-        if (null !== $input->getArgument('username') && null !== $input->getArgument('password') && null !== $input->getArgument('email') && null !== $input->getArgument('full-name')) {
+        if (null !== $input->getArgument('username') && null !== $input->getArgument('password') && null !== $input->getArgument('email') && null !== $input->getArgument('fullname')) {
             return;
         }
 
@@ -134,18 +156,24 @@ class CreateUserCommand extends Command
         }
 
         // Ask for the full name if it's not defined
-        $fullName = $input->getArgument('full-name');
+        $fullName = $input->getArgument('fullname');
         if (null !== $fullName) {
             $this->io->text(' > <info>Full Name</info>: '.$fullName);
         } else {
             $fullName = $this->io->ask('Full Name', null, [$this->validator, 'validateFullName']);
-            $input->setArgument('full-name', $fullName);
+            $input->setArgument('fullname', $fullName);
         }
     }
 
     /**
      * This method is executed after interact() and initialize(). It usually
      * contains the logic to execute to complete this command task.
+     * @param  \Symfony\Component\Console\Input\InputInterface   $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return int
+     * @author Hamza
+     * @version 1.0
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -155,8 +183,8 @@ class CreateUserCommand extends Command
         $username = $input->getArgument('username');
         $plainPassword = $input->getArgument('password');
         $email = $input->getArgument('email');
-        $fullName = $input->getArgument('full-name');
-        $isAdmin = $input->getOption('admin');
+        $fullName = $input->getArgument('fullname');
+        $isAdmin = $input->getOption('isAdmin');
 
         // make sure to validate the user data is correct
         $this->validateUserData($username, $plainPassword, $email, $fullName);
@@ -166,6 +194,7 @@ class CreateUserCommand extends Command
         $user->setFullName($fullName);
         $user->setUsername($username);
         $user->setEmail($email);
+        $user->setIsAdmin($isAdmin ? true : false);
         $user->setRoles([$isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER']);
 
         // See https://symfony.com/doc/5.4/security.html#registering-the-user-hashing-passwords
@@ -185,6 +214,17 @@ class CreateUserCommand extends Command
         return Command::SUCCESS;
     }
 
+    /**
+     * validateUserData function
+     * @param  [type] $username
+     * @param  [type] $plainPassword
+     * @param  [type] $email
+     * @param  [type] $fullName
+     *
+     * @return void
+     * @author Hamza
+     * @version 1.0
+     */
     private function validateUserData($username, $plainPassword, $email, $fullName): void
     {
         // first check if a user with the same username already exists.
@@ -211,6 +251,10 @@ class CreateUserCommand extends Command
      * The command help is usually included in the configure() method, but when
      * it's too long, it's better to define a separate method to maintain the
      * code readability.
+     *
+     * @return string
+     * @author Hamza
+     * @version 1.0
      */
     private function getCommandHelp(): string
     {
